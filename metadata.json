@@ -1,0 +1,7 @@
+{
+  "name": "SmartVoice Note (智聲筆記)",
+  "description": "A secure, high-performance audio-to-text application powered by Gemini. Features intelligent speaker identification, Taiwanese/Mandarin recognition, editing, and file export capabilities in Traditional Chinese.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
