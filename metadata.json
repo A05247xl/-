@@ -1,0 +1,8 @@
+{
+  "name": "歷屆社工師考試題 Study App",
+  "description": "A study application that reads past exam questions from Google Sheets, providing a quiz mode, an essay mode with AI grading, and an audio review mode using TTS.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}
