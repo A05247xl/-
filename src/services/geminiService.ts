@@ -2,7 +2,15 @@ import { GoogleGenAI, Type } from '@google/genai';
 
 export async function gradeEssay(question: string, keyPoints: string, userResponse: string): Promise<{ score: number, feedback: string }> {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    // @ts-ignore: Vite injects import.meta.env
+    const viteKey = typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_GEMINI_API_KEY : '';
+    const apiKey = viteKey || process.env.GEMINI_API_KEY;
+    
+    if (!apiKey) {
+      throw new Error("找不到 GEMINI API KEY。請確認在 Vercel 環境變數是否有設定 VITE_GEMINI_API_KEY，並且已重新部署 (Redeploy)。");
+    }
+    
+    const ai = new GoogleGenAI({ apiKey });
     
     const prompt = `
 您是一位專業的閱卷老師。請根據以下題目的「評分要點/參考解答」來評估學生的「作答」。
