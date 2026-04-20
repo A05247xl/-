@@ -56,11 +56,11 @@ ${userResponse}
       score: result.score || 0,
       feedback: result.feedback || '無法生成評語。'
     };
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error grading essay with Gemini:', error);
     return {
       score: 0,
-      feedback: '網路錯誤或 API 設定異常，無法批改此題。請稍後再試。'
+      feedback: `發生錯誤 [DEBUG]: ${error?.message || error || '未知錯誤'}。請確認 API 金鑰等設定。`
     };
   }
 }
