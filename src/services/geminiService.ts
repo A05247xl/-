@@ -28,7 +28,7 @@ ${userResponse}
 `;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.1-pro-preview",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         responseMimeType: "application/json",
@@ -58,9 +58,19 @@ ${userResponse}
     };
   } catch (error: any) {
     console.error('Error grading essay with Gemini:', error);
+    
+    let userFriendlyMessage = '網路錯誤或 API 設定異常，無法批改此題。請稍後再試。';
+    const errorMsg = error?.message || '';
+    
+    if (errorMsg.includes('429') || errorMsg.includes('Quota') || errorMsg.includes('RESOURCE_EXHAUSTED')) {
+      userFriendlyMessage = `[API 額度已滿] 您目前使用的 Gemini API Key 呼叫次數已經達到上限。請稍後再試，或更換別的金鑰。`;
+    } else {
+      userFriendlyMessage = `發生錯誤 [DEBUG]: ${errorMsg || error || '未知錯誤'}。請確認 API 金鑰等設定。`;
+    }
+
     return {
       score: 0,
-      feedback: `發生錯誤 [DEBUG]: ${error?.message || error || '未知錯誤'}。請確認 API 金鑰等設定。`
+      feedback: userFriendlyMessage
     };
   }
 }
